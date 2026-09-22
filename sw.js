@@ -1,4 +1,4 @@
-const CACHE = "programme-v2";
+const CACHE = "programme-v3";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icon-180.png", "./icon-192.png", "./icon-512.png"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
@@ -12,7 +12,7 @@ self.addEventListener("fetch", e => {
   const url = new URL(req.url);
   // Page : réseau d'abord (pour recevoir les mises à jour), cache si hors ligne
   if (req.mode === "navigate") {
-    e.respondWith(fetch(req).then(r => { const c = r.clone(); caches.open(CACHE).then(k => k.put("./index.html", c)); return r; })
+    e.respondWith(fetch(req.url, {cache: "no-cache", credentials: "same-origin"}).then(r => { const c = r.clone(); caches.open(CACHE).then(k => k.put("./index.html", c)); return r; })
       .catch(() => caches.match("./index.html")));
     return;
   }
