@@ -117,7 +117,6 @@ body.editing .sets, body.editing .last, body.editing .hist, body.editing .up{dis
   <header class="top">
     <div>
       <h1>Mon programme</h1>
-      <p class="today" id="today"></p>
     </div>
     <div class="tools">
       <span class="status" id="status" aria-live="polite">Chargement…</span>
@@ -458,13 +457,11 @@ function restoreBackup(file){
 document.addEventListener("visibilitychange",()=>{
   if(document.visibilityState!=="visible") return;
   const t=localDate(); if(t===TODAY) return;
-  TODAY=t; setToday();
+  TODAY=t;
   const s=PROGRAM.find(p=>p.dow===new Date().getDay()); if(s) cur=s.key;
   renderSession();
 });
-function setToday(){ document.getElementById("today").textContent =
-  "Séance du "+new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"}); }
-setToday();
+
 
 document.getElementById("tabs").addEventListener("click",e=>{
   const b=e.target.closest("button[data-k]"); if(!b) return;
